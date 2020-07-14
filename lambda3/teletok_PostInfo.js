@@ -55,19 +55,58 @@ exports.handler = (event) => {
             console.log(cantidad);
 
 
-            conn.end(function(err) {
-                return {
-                    statusCode: 200,
-                    headers: { 'Access-Control-Allow-Origin': '*' },
-                    body: JSON.stringify({
-                        "PID": PID,
-                        "desc": desc,
-                        "creation_date": creation_date,
-                        "username": username,
-                        "cantidad": cantidad
-                    })
-                };
+            var sql2 = "SELECT pc.id, pc.message, (SELECT user.username FROM teletok_lambda.user where user.id = pc.user_id) as usuario FROM teletok_lambda.post_comment as pc where post_id = 1;"
+            var param2 = [id]
+
+            conn.query(sql2 ,param2, function(err, result) {
+
+                if(err){
+
+                    conn.end(function(err) {
+                        return {
+                            statusCode: 200,
+                            headers: { 'Access-Control-Allow-Origin': '*' },
+                            body: JSON.stringify({
+                                "estado": "ok",
+                                "msg": result
+                            })
+                        };
+
+                    });
+
+                }else{
+                    var texto;
+                    texto = {
+                        "id": PID,
+                        "description": desc ,
+                        "creation_date":creation_date,
+                        "username": username ,
+                        "commentCount": cantidad ,
+                        "comments":[] };
+
+
+                    for (var i = 0; i < cantidad; i++) {
+                        texto.comments.append(result[i].id);
+                        texto.comments.append(result[i].message);
+                        texto.comments.append(result[i].usuario);
+                    }
+                    conn.end(function(err) {
+                        return {
+                            statusCode: 200,
+                            headers: { 'Access-Control-Allow-Origin': '*' },
+                            body: JSON.stringify({
+                                "estado": "ok",
+                                "msg": result
+                            })
+                        };
+
+                    });
+
+
+                }
+
 
             });
-        }});
+        }
+    });
 }
