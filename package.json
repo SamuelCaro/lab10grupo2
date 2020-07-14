@@ -1,7 +1,6 @@
 {
   "name": "lab10grupo2",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -13,5 +12,15 @@
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
     "mysql2": "^2.1.0"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SamuelCaro/lab10grupo2.git"
+  },
+  "bugs": {
+    "url": "https://github.com/SamuelCaro/lab10grupo2/issues"
+  },
+  "homepage": "https://github.com/SamuelCaro/lab10grupo2#readme",
+  "description": ""
 }
